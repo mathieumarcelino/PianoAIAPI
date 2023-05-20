@@ -29,7 +29,6 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
-          mkdir -p /home/mathieu/pianoai
           cd /home/mathieu/pianoai
           python3 -m venv venv
           source venv/bin/activate
