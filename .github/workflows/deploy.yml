@@ -1,0 +1,42 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Python environment
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python3 -m venv venv
+        . venv/bin/activate
+        pip install -U pip
+        pip install -U -r required.txt
+
+    - name: Run the application
+      run: |
+        . venv/bin/activate
+        python3 app.py
+
+    - name: Copy the compiled code to VPS
+      env:
+        SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+        SERVER_USER: ${{ secrets.SERVER_USER }}
+      run: |
+        sshpass -p $SERVER_PASSWORD ssh $SERVER_USER@$SERVER_IP "mkdir -p /home/$SERVER_USER/pianoai"
+        sshpass -p $SERVER_PASSWORD ssh $SERVER_USER@$SERVER_IP "sudo service pianoai stop"
+        sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no -r . $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/pianoai/
+        sshpass -p $SERVER_PASSWORD ssh $SERVER_USER@$SERVER_IP "sudo service pianoai start"
