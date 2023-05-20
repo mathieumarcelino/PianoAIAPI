@@ -34,5 +34,5 @@ jobs:
           source venv/bin/activate
           pip install -U pip
           pip install -U -r required.txt
-          sudo systemctl stop pianoai
-          sudo systemctl start pianoai
+          sudo service pianoai stop
+          sudo service pianoai start
