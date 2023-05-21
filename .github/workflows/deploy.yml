@@ -20,6 +20,7 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
+          rm -rf /home/mathieu/pianoai/api
           mkdir -p /home/mathieu/pianoai/api
           chown -R ${{ secrets.SERVER_USER }} /home/mathieu/pianoai/api
           chmod -R 755 /home/mathieu/pianoai/api
