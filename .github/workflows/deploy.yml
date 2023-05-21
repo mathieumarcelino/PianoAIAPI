@@ -44,6 +44,12 @@ jobs:
           python3 -m venv venv
           source venv/bin/activate
           pip install -U pip
-          pip install -U -r required.txt
+          pip install flask
+          pip install flask_restful
+          pip install flask_cors
+          pip install tensorflow
+          pip install tflearn
+          pip install gevent
+          pip install gunicorn
           sudo service pianoai stop
           sudo service pianoai start
