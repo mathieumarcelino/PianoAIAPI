@@ -20,6 +20,8 @@ jobs:
         SERVER_USER: ${{ secrets.SERVER_USER }}
       run: |
         sudo apt-get install sshpass
+        mkdir -p ~/.ssh/
+        ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
         sshpass -p $SERVER_PASSWORD ssh $SERVER_USER@$SERVER_IP "mkdir -p /home/mathieu/pianoai/api"
         sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no app.py required.txt $SERVER_USER@$SERVER_IP:/home/mathieu/pianoai/api
         sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd /home/mathieu/pianoai/api && sudo service pianoai stop && python3 -m venv venv && . venv/bin/activate && pip install -U pip && pip install -U -r required.txt && sudo service pianoai start"
