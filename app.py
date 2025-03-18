@@ -6,8 +6,6 @@ import tflearn
 import pickle
 import os
 
-os.environ['TMPDIR'] = '/home/mathieu/tmp'
-
 from tflearn.data_utils import *
 
 from threading import Thread

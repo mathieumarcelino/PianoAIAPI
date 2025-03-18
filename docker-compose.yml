@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  piano-api:
+    build: .
+    container_name: piano-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./model:/app/model
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+    restart: unless-stopped
